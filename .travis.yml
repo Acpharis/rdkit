@@ -46,19 +46,14 @@ before_script:
  - mkdir $RDBASE/External/java_lib
  - wget http://search.maven.org/remotecontent?filepath=junit/junit/4.10/junit-4.10.jar -O $RDBASE/External/java_lib/junit.jar
  - ls -l $RDBASE/External/java_lib
- 
+
  - export PYTHON=`which python`
  - echo $PYTHON
- - export PY_PREFIX=`$PYTHON -c "import sys; print(sys.prefix)"`
- - echo $PY_PREFIX
- - export PY_SP_DIR=$PY_PREFIX/lib/python$TRAVIS_PYTHON_VERSION/site-packages
- - echo $PY_SP_DIR
-
 
 script:
  - mkdir build
  - cd build
- - cmake -D Python_ADDITIONAL_VERSIONS=$TRAVIS_PYTHON_VERSION -D PYTHON_EXECUTABLE=$PYTHON -D PYTHON_LIBRARY=`find $PY_PREFIX -name "libpython$TRAVIS_PYTHON_VERSION*.so"` -D PYTHON_NUMPY_INCLUDE_PATH=$PY_SP_DIR/numpy/core/include -D BOOST_ROOT=$PY_PREFIX -D Boost_NO_SYSTEM_PATHS=ON -D RDK_BUILD_SWIG_WRAPPERS=ON ..
+ - cmake -D PYTHON_EXECUTABLE=$PYTHON -D RDK_BUILD_SWIG_WRAPPERS=ON ..
  - cat CMakeCache.txt # useful for debugging/troubleshooting
 
  - make -j2
